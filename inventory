@@ -1,0 +1,30 @@
+all:
+  hosts: # hosts level declartaion
+    web01: #name of host
+      ansible_host: 172.31.1.244 #private key of servers
+
+    web02:
+      ansible_host: 172.31.4.219
+
+    db01:
+      ansible_host: 172.31.10.161
+
+  children:   # group level declerations
+    webservers:  #name of group
+      hosts:  # mention hosts to add list of hosts to add to group webservers
+        web01:
+        web02:
+
+    dbserver:
+      hosts:
+        db01:
+
+    combo:   # grouping of groups mention children here bc of groups mentioned
+      children:
+        webservers:
+        dbserver:
+      vars:   # vars should be added to groups of groups in group level. host level has high precedence
+        ansible_user: ec2-user   #user ec2-user to login
+        ansible_ssh_private_key_file: node_key.pem #create node wth seperate keypairs and add node private key here. so that ansible while connecting to nodes present private key with it to perform tasks on nodes.
+     
+        

@@ -1,0 +1,44 @@
+---
+- name: Installation of packages
+  hosts: webservers
+  become: yes
+  gather_facts: yes
+
+
+  tasks:
+    - name: install httpd
+      yum:
+        name: httpd
+        state: present
+
+    - name: start service
+      service:
+        name: httpd
+        state: started
+        enabled: ye
+
+    - name: loops
+      yum:
+        name: "{{item}}"
+        state: present
+      loop:
+        - wget
+        - unzip
+
+- name: install on db server
+  hosts: dbserver
+  become: yes
+  gather_facts: yes
+
+  tasks:
+    - name: install mariafb
+      yum:
+        name: mariadb-server
+        state: present
+
+
+    - name: start mariadb service
+      service:
+        name: mariadb
+        state: started
+        enable: yes

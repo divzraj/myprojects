@@ -1,0 +1,39 @@
+---
+ - name: Tooplate website setting
+   hosts: webservers
+   become: yes
+   gather_facts: yes
+
+
+   tasks:
+
+     - name: install httpd service
+       yum:
+         name: httpd
+         state: present
+
+     - name: download tooplate website zip file
+       get_url:
+         url: https://www.tooplate.com/zip-templates/2137_barista_cafe.zip
+         dest: /tmp/2137_barista_cafe.zip
+
+     - yum:
+         name: unzip
+         state: present
+
+     - name: Unarchive a file that is already on the remote machine
+       unarchive:
+         src: /tmp/2137_barista_cafe.zip
+         dest: /var/www/html
+         remote_src: yes
+
+     - name: copyy
+       copy:
+         src: /var/www/html/2137_barista_cafe/
+         dest: /var/www/html
+         remote_src: yes
+  
+     - name: restart service
+       service:
+         name: httpd
+         state: restarted  
