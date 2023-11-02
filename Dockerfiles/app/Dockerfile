@@ -1,4 +1,4 @@
-FROM openjdk:11 AS IMAGE
+FROM openjdk:8 AS IMAGE
 RUN apt update && apt install maven -y
 RUN git clone -b docker https://github.com/divzraj/devprojects.git
 RUN cd devprojects && mvn install
