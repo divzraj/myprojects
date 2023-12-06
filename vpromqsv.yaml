@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: vprmqsvc
+spec:
+  ports:
+  - port: 15672
+    targetPort: vpromq-port
+    protocol: TCP
+  selector:
+    app: rmqdep
+  type: ClusterIP
